@@ -18,6 +18,7 @@ app.use(session({
     secret: '156655hjkkjhgggghgg',
     cookie: { maxAge: 600000 }
 }));
+
 app.get('/register',(req,res)=>{
     res.render('register')
 })
@@ -52,7 +53,7 @@ app.post('/doLogin',async (req,res)=>{
         res.render("login",{errorMsg:'You should input password'})
         return;
     }
-    console.log(name )
+    console.log(name)
     //get role from database: could be "-1", admin, customer
     var role = await getRole(name,pass);
     if(role != "-1"){
@@ -79,17 +80,13 @@ app.post('/update', async (req, res) => {
     updateStudent(id, nameInput, tuoiInput);
     res.redirect("/");
 })
-
+app.get('/insert',(req,res)=>{
+    res.render('insert')
+})
 app.post('/insert', async (req, res) => {
     const nameInput = req.body.txtName;
     const tuoiInput = req.body.txtTuoi;
     const pictureInput = req.body.txtPicture;
-
-    if(pictureInput[-1] != 'g' & pictureInput[-2] !== 'p' & pictureInput[-3] !=='j' & pictureInput[-4] !== '.')
-    {
-        res.render("index", {errorMsg: 'need file jpg'})
-        return;
-    }
 
     if(nameInput.length <= 2){
         res.render("index",{errorMsg:'Name should be more than 2 character'})
